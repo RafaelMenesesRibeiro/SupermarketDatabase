@@ -73,8 +73,8 @@ CREATE TABLE produto (
 );
 
 CREATE TABLE fornece_sec (
-	nif           integer NOT NULL UNIQUE,
-	ean           bigint NOT NULL UNIQUE,
+	nif           integer NOT NULL,
+	ean           bigint NOT NULL,
 	CONSTRAINT    pk_fornece_sec PRIMARY KEY(nif),
 	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    fk_fornece_sec_nif FOREIGN KEY(nif) REFERENCES fornecedor(nif),
