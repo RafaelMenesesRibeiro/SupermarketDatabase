@@ -1,5 +1,5 @@
---a) Qual o nome do fornecedor que forneceu o maior número de categorias?
---   Note que pode ser mais do que um fornecedor.
+-- a) Qual o nome do fornecedor que forneceu o maior número de categorias?
+--    Note que pode ser mais do que um fornecedor.
 select *
 from (
 	select max(forn_num.cat_num) as cat_num
@@ -26,12 +26,22 @@ from (
 							group by forn_cat.nif
 			) as produtos
 
---c) Quais os produtos (ean) que nunca foram repostos
+-- b) Quais of fornecedores primários (nome e nif) que forneceram produtos de todas
+--    as categorias simples?
+select P.forn_primario as nif, count(distinct categoria) as unique_cats
+from produto as P
+group by P.forn_primario
+having count(distinct categoria) = (select count(S.nome) from categoria_simples as S)
+
+
+
+
+-- c) Quais os produtos (ean) que nunca foram repostos
 (select ean from produto)
   except
 (select distinct ean from reposicao);
 
---d) Quais os produtos (ean) com um numero de fornecedores secundarios superiores a 10
+-- d) Quais os produtos (ean) com um numero de fornecedores secundarios superiores a 10
 select distinct ean
 from fornece_sec
 group by ean
