@@ -3,6 +3,7 @@ insert into categoria values ('carne');
 insert into categoria values ('frango');
 insert into categoria values ('peito de frango');
 insert into categoria values ('salsicha');
+insert into categoria values ('pessoa');
 
 insert into categoria_simples values ('peito de frango');
 insert into categoria_simples values ('salsicha');
@@ -16,12 +17,19 @@ insert into constituida values ('frango', 'peito de frango');
 
 insert into fornecedor values (267081367, 'Antonio');
 insert into fornecedor values (907081367, 'Maria');
+insert into fornecedor values (900000000, 'Andre');
+insert into fornecedor values (900000011, 'Joao');
+insert into fornecedor values (900000022, 'Miguel');
+insert into fornecedor values (900000033, 'Mafalda');
+insert into fornecedor values (900000044, 'Francisco');
 
 insert into produto values (1234567890, 'Frankfurt', 'salsicha', 267081367, '2010-05-05');
 insert into produto values (9234567899, 'Nobre', 'salsicha', 907081367, '2222-11-11');
+insert into produto values (111222333, 'Mafalda', 'pessoa', 900000000, '2222-11-11');
+insert into produto values (111222444, 'Andre', 'pessoa', 900000000, '2222-11-11');
 
-insert into fornece_sec values (267081367, 1234567890);
-insert into fornece_sec values (907081367, 9234567899);
+insert into fornece_sec values (267081367, 111222333);
+insert into fornece_sec values (907081367, 111222333);
 
 insert into corredor values (120, 3.12);
 insert into corredor values (22, 1.12);
