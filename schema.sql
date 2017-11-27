@@ -41,8 +41,8 @@ CREATE TABLE super_categoria (
 );
 
 CREATE TABLE constituida (
-	super_categoria   varchar(80) NOT NULL UNIQUE,
-	categoria         varchar(80) NOT NULL UNIQUE,
+	super_categoria   varchar(80) NOT NULL,
+	categoria         varchar(80) NOT NULL,
 	CONSTRAINT        pk_constituida PRIMARY KEY(super_categoria, categoria),
 	CONSTRAINT        fk_constituida_super_categoria FOREIGN KEY(super_categoria) REFERENCES super_categoria(nome),
 	CONSTRAINT        fk_constituida_categoria FOREIGN KEY(categoria) REFERENCES categoria(nome),
@@ -66,7 +66,7 @@ CREATE TABLE produto (
 	data          date NOT NULL,
 	CONSTRAINT    pk_produto PRIMARY KEY(ean),
 	--TODO - change to numeric.
-	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    fk_produto_categoria FOREIGN KEY(categoria) REFERENCES categoria(nome),
 	CONSTRAINT    fk_produto_forn_primario FOREIGN KEY(forn_primario) REFERENCES fornecedor(nif)
 	--CONSTRAINT    ri_re3 #TODO
@@ -76,7 +76,7 @@ CREATE TABLE fornece_sec (
 	nif           integer NOT NULL UNIQUE,
 	ean           bigint NOT NULL UNIQUE,
 	CONSTRAINT    pk_fornece_sec PRIMARY KEY(nif),
-	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    fk_fornece_sec_nif FOREIGN KEY(nif) REFERENCES fornecedor(nif),
 	CONSTRAINT    fk_fornece_sec_ean FOREIGN KEY(ean) REFERENCES produto(ean)
 );
@@ -110,7 +110,7 @@ CREATE TABLE planograma(
 	unidades      integer NOT NULL,
 	loc           integer NOT NULL,
 	--TODO - change to numeric.
-	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    pk_planograma PRIMARY KEY(ean, nro, lado, altura),
 	CONSTRAINT    fk_planograma_ean FOREIGN KEY(ean) REFERENCES produto(ean),
 	CONSTRAINT    fk_planograma_nro FOREIGN KEY(nro, lado, altura) REFERENCES prateleira(nro, lado, altura)
@@ -135,7 +135,7 @@ CREATE TABLE reposicao(
 	instante      date NOT NULL,
 	unidades      integer NOT NULL,
 	--TODO - change to numeric.
-	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    pk_reposicao PRIMARY KEY(ean, nro, lado, altura, operador, instante),
 	CONSTRAINT    fk_reposicao_ean FOREIGN KEY(ean, nro, lado, altura) REFERENCES planograma(ean, nro, lado, altura),
 	CONSTRAINT    fk_reposicao_operador FOREIGN KEY(operador, instante) REFERENCES evento_reposicao(operador, instante)
