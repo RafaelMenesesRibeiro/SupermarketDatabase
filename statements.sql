@@ -62,7 +62,7 @@ CREATE TABLE produto (
 	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
 	CONSTRAINT    fk_produto_categoria FOREIGN KEY(categoria) REFERENCES categoria(nome),
 	CONSTRAINT    fk_produto_forn_primario FOREIGN KEY(forn_primario) REFERENCES fornecedor(nif),
-	CONSTRAINT    ri_re3 #TODO,
+	CONSTRAINT    ri_re3 #TODO
 );
 
 CREATE TABLE fornecedor (
@@ -73,26 +73,81 @@ CREATE TABLE fornecedor (
 );
 
 CREATE TABLE fornece_sec (
-
+	nif           integer(9)  NOT NULL UNIQUE,
+	#TODO - change to numeric.
+	ean           bigint(13)  NOT NULL UNIQUE,
+	CONSTRAINT    pk_fornece_sec PRIMARY KEY(nif),
+	#TODO - change to numeric.
+	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	CONSTRAINT    fk_fornece_sec_nif FOREIGN KEY(nif) REFERENCES fornecedor(nif),
+	CONSTRAINT    fk_fornece_sec_ean FOREIGN KEY(ean) REFERENCES produto(ean),
+	CONSTRAINT    ri_ea4 #TODO
 );
 
 CREATE TABLE corredor (
-
+	nro           integer  NOT NULL UNIQUE,
+	largura       numeric(3,2)  NOT NULL,
+	CONSTRAINT    pk_corredor PRIMARY KEY(nro)
 );
 
 CREATE TABLE prateleira (
-
+	#TODO - check if unique is needed
+	nro           integer  NOT NULL,
+	#TODO - add constraint to only be 'esquerda' or 'direita'
+	lado          char(8)  NOT NULL,
+	altura        char(8)  NOT NULL,
+	CONSTRAINT    pk_corredor PRIMARY KEY(nro, lado, altura),
+	CONSTRAINT    fk_prateleira_nro FOREIGN KEY(nro) REFERENCES corredor(nro)
 );
 
 CREATE TABLE planograma(
-
+	#TODO - change to numeric.
+	ean           bigint(13)  NOT NULL UNIQUE,
+	nro           integer  NOT NULL,
+	#TODO - add constraint to only be 'esquerda' or 'direita'
+	lado          char(8)  NOT NULL,
+	#TODO - add constraint to only be 'chao' or 'medio' or 'superior'
+	altura        char(8)  NOT NULL,
+	#TODO - only 4?
+	face          integer  NOT NULL,
+	unidades      integer  NOT NULL,
+	loc           integer  NOT NULL,
+	#TODO - change to numeric.
+	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	CONSTRAINT    pk_planograma PRIMARY KEY(ean, nro, lado, altura),
+	CONSTRAINT    fk_planograma_ean FOREIGN KEY(ean) REFERENCES produto(ean),
+	CONSTRAINT    fk_planograma_nro FOREIGN KEY(nro) REFERENCES prateleira(nro),
+	CONSTRAINT    fk_planograma_lado FOREIGN KEY(lado) REFERENCES prateleira(lado),
+	CONSTRAINT    fk_planograma_altura FOREIGN KEY(altura) REFERENCES prateleira(altura)
 );
 
 CREATE TABLE evento_reposicao(
-
+	operador      integer(9)  NOT NULL,
+	instante      date  NOT NULL,
+	CONSTRAINT    pk_evento_reposicao PRIMARY KEY(operador, instante)
+	CONSTRAINT    ri_ea3 #TODO
 );
 
 CREATE TABLE reposicao(
+	#TODO - change to numeric.
+	ean           bigint(13)  NOT NULL,
+	nro           integer  NOT NULL,
+	#TODO - add constraint to only be 'esquerda' or 'direita'
+	lado          char(8)  NOT NULL,
+	#TODO - add constraint to only be 'chao' or 'medio' or 'superior'
+	altura        char(8)  NOT NULL,
+	operador      integer(9)  NOT NULL, 
+	instante      date  NOT NULL,
+	unidades      integer  NOT NULL,
+	#TODO - change to numeric.
+	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	CONSTRAINT    pk_reposicao PRIMARY KEY(ean, nro, lado, altura, operador, instante),
+	CONSTRAINT    fk_reposicao_ean FOREIGN KEY(ean) REFERENCES planograma(ean),
+	CONSTRAINT    fk_reposicao_nro FOREIGN KEY(nro) REFERENCES planograma(nro),
+	CONSTRAINT    fk_reposicao_lado FOREIGN KEY(lado) REFERENCES planograma(lado),
+	CONSTRAINT    fk_reposicao_altura FOREIGN KEY(altura) REFERENCES planograma(altura),
+	CONSTRAINT    fk_reposicao_operador FOREIGN KEY(operador) REFERENCES evento_reposicao(operador),
+	CONSTRAINT    fk_reposicao_instante FOREIGN KEY(instante) REFERENCES evento_reposicao(instante)
 
 );
 ----------------------------------------
