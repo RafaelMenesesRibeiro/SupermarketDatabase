@@ -68,3 +68,10 @@ having count(nif) > 10;
 \echo 'e) Quais os produtos (ean) que foram repostos sempre pelo mesmo operador?:'
 \echo ''
 \echo '..............................'
+select ean
+from (
+	select distinct ean, operador
+	from reposicao
+) as ean_operator_vista
+group by ean
+having count(operador) = 1;
