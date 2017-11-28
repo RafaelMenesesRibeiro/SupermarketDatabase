@@ -1,5 +1,8 @@
--- a) Qual o nome do fornecedor que forneceu o maior número de categorias?
---    Note que pode ser mais do que um fornecedor.
+\echo '..............................'
+\echo ''
+\echo 'a) Qual o nome do fornecedor que forneceu o maior número de categorias? Note que pode ser mais do que um fornecedor.'
+\echo ''
+\echo '..............................'
 select *
 from (
 	select max(forn_num.cat_num) as cat_num
@@ -24,26 +27,38 @@ from (
 								from fornece_sec as S natural join produto as P
 							) as forn_cat
 							group by forn_cat.nif
-			) as produtos
+			) as produtos;
 
--- b) Quais of fornecedores primários (nome e nif) que forneceram produtos de todas
---    as categorias simples?
+
+\echo '..............................'
+\echo ''
+\echo 'b) Quais of fornecedores primários (nome e nif) que forneceram produtos de todas as categorias simples?'
+\echo ''
+\echo '..............................'
+
 select P.forn_primario as nif, count(distinct categoria) as unique_cats
 from produto as P
 group by P.forn_primario
-having count(distinct categoria) = (select count(S.nome) from categoria_simples as S)
+having count(distinct categoria) = (select count(S.nome) from categoria_simples as S);
 
 
 
+\echo '..............................'
+\echo ''
+\echo 'c) Quais os produtos (ean) que nunca foram repostos'
+\echo ''
+\echo '..............................'
 
--- c) Quais os produtos (ean) que nunca foram repostos
 (select ean from produto)
   except
 (select distinct ean from reposicao);
 
--- d) Quais os produtos (ean) com um numero de fornecedores secundarios superiores a 10
+\echo '..............................'
+\echo ''
+\echo 'd) Quais os produtos (ean) com um numero de fornecedores secundarios superiores a 10:'
+\echo ''
+\echo '..............................'
 select distinct ean
 from fornece_sec
 group by ean
 having count(nif) > 10;
-

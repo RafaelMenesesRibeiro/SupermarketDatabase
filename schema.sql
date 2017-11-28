@@ -75,7 +75,7 @@ CREATE TABLE produto (
 CREATE TABLE fornece_sec (
 	nif           integer NOT NULL,
 	ean           bigint NOT NULL,
-	CONSTRAINT    pk_fornece_sec PRIMARY KEY(nif),
+	CONSTRAINT    pk_fornece_sec PRIMARY KEY(nif, ean),
 	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    fk_fornece_sec_nif FOREIGN KEY(nif) REFERENCES fornecedor(nif),
 	CONSTRAINT    fk_fornece_sec_ean FOREIGN KEY(ean) REFERENCES produto(ean)
@@ -131,7 +131,7 @@ CREATE TABLE reposicao(
 	lado          char(8) NOT NULL,
 	--TODO - add constraint to only be 'chao' or 'medio' or 'superior'
 	altura        char(8) NOT NULL,
-	operador      integer NOT NULL, 
+	operador      integer NOT NULL,
 	instante      date NOT NULL,
 	unidades      integer NOT NULL,
 	--TODO - change to numeric.
