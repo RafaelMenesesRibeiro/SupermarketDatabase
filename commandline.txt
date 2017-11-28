@@ -6,7 +6,7 @@ scp *.sql ist426361@sigma.ist.utl.pt:~ (from GitHub repo)
 ssh ist426361@sigma.ist.utl.pt (open two tabs with this)
 
 
-psql -h db.ist.utl.pt –U ist426361 (login in to PostgreSQL on one of them)
+psql -h db.ist.utl.pt -U ist426361 (login in to PostgreSQL on one of them)
 
 
 On PostgreSQL.......

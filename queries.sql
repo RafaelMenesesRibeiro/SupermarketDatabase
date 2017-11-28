@@ -62,3 +62,9 @@ select distinct ean
 from fornece_sec
 group by ean
 having count(nif) > 10;
+
+\echo '..............................'
+\echo ''
+\echo 'e) Quais os produtos (ean) que foram repostos sempre pelo mesmo operador?:'
+\echo ''
+\echo '..............................'

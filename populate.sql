@@ -29,7 +29,7 @@ insert into categoria_simples values ('Fruta');
 insert into categoria_simples values ('Leite de Vaca');
 insert into categoria_simples values ('Iogurte');
 
-	insert into super_categoria values ('Cereais');
+insert into super_categoria values ('Cereais');
 insert into super_categoria values ('Doces');
 insert into super_categoria values ('Carne');
 insert into super_categoria values ('Peixe');
@@ -118,6 +118,7 @@ insert into fornece_sec values (521721910, 3504045126739);
 insert into fornece_sec values (632178362, 3504045126739);
 insert into fornece_sec values (352172139, 3504045126739);
 insert into fornece_sec values (278310135, 3504045126739);
+insert into fornece_sec values (253191001, 3504045126739);
 insert into fornece_sec values (381710131, 1173946541904);
 insert into fornece_sec values (381710131, 1485975080046);
 insert into fornece_sec values (381710131, 1688749857592);
