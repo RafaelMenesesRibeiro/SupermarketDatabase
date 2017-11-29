@@ -28,6 +28,6 @@ psql -h db.ist.utl.pt -U istXXXXXX
 **6) The following list of commands work as "scripts" for quick deletation, printing, etc...**
 ```
 List all tables from current schema (not their entries): \dt
-List all tables and their entries from current schema: \i dt_listtables.sql
-Delete all tables from current schema: \i dt_droptables.sql
+List all tables and their entries from current schema: \i listtables.sql
+Delete all tables from current schema: \i droptables.sql
 ```
