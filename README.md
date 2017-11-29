@@ -25,33 +25,9 @@ psql -h db.ist.utl.pt -U istXXXXXX
 \i queries.sql
 ```
 
-**6) The following list of commands can be used to reset/print your entire database, they will be scripted soon**
+**6) The following list of commands work as "scripts" for quick deletation, printing, etc...**
 ```
-drop table categoria cascade;
-drop table categoria_simples cascade;
-drop table super_categoria cascade;
-drop table constituida cascade;
-drop table produto cascade;
-drop table fornecedor cascade;
-drop table fornece_sec cascade;
-drop table corredor cascade;
-drop table prateleira cascade;
-drop table planograma cascade;
-drop table evento_reposicao cascade;
-drop table reposicao cascade;
-```
-
-```
-select * from categoria;
-select * from categoria_simples;
-select * from super_categoria;
-select * from constituida;
-select * from produto;
-select * from fornecedor;
-select * from fornece_sec;
-select * from corredor;
-select * from prateleira;
-select * from planograma;
-select * from evento_reposicao;
-select * from reposicao;
+List all tables from current schema (not their entries): \dt
+List all tables and their entries from current schema: \i dt_listtables.sql
+Delete all tables from current schema: \i dt_droptables.sql
 ```
