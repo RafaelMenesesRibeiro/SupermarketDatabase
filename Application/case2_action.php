@@ -10,107 +10,158 @@
 		$db->query("start transaction;");
 		
 		$case = $_POST["case"];
-		echo("<p>$case</p>");
+	
 		switch($case) {
 			case 1:
-				$categoria = $_POST["categoria"];
-				$sql = "INSERT INTO categoria VALUES ('$categoria');";
+				$ean = $_POST["ean"];
+				$design = $_POST["designation"];
+				$category = $_POST["category"];
+				$nif = $_POST["nif"];
+				$date = $_POST["date"];
+
+				//Checks if the category exists.
+				$sql = "SELECT * FROM categoria WHERE nome = '$category';";
+				$result = $db->query($sql);
+				$categoryExists = false;
+				foreach ($result as $cat) {
+					$name = $cat['nome'];
+					$categoryExists = true;
+				}
+				//If the category isn't in the database yet prints an error
+				//message.
+				if (!$categoryExists) {
+					echo("<p>The category provided does not exist in the database.
+						Use <a href='http://web.ist.utl.pt/ist426058/case1.php'>
+						this page</a> to add one and then create the product.</p>");
+					break;
+				}
+
+				//Checks if the supplier exists.
+				$sql = "SELECT * FROM fornecedor WHERE nif = $nif;";
+				$result = $db->query($sql);
+				$supplierExists = false;
+				foreach ($result as $forn) {
+					$nif = $forn['nif'];
+					$supplierExists = true;
+				}
+				//If the supplier isn't in the database yet prints an error
+				//message.
+				if (!$supplierExists) {
+					echo("<p>The supplier provided does not exist in the database.
+						Use the previous page to add one and then create the product.</p>");
+					break;
+				}
+				
+				//If the supplier was already in the database, creates the product.
+				$sql = "INSERT INTO produto VALUES ($ean, '$design', '$category', '$nif', '$date');";
 				$db->query($sql);
-				$sql = "INSERT INTO categoria_simples VALUES ('$categoria');";
-				$db->query($sql);
+
 				break;
 
 			case 2:
-				$category = $_POST["categoria"];
-				//Checks if the category has a parent.
-				$sql = "SELECT super_categoria FROM constituida WHERE categoria = '$category';";
-				$result = $db->query($sql);
+				$ean = $_POST["ean"];
 
-				$parent = 'Indefinido';
-				$hasparent = false;
-				foreach ($result as $cat) {
-					$parent = $cat['super_categoria'];
-					$hasparent = true;
-				}
-								
-				//Checks if category has children.
-				$sql = "SELECT categoria FROM constituida WHERE super_categoria = '$category';";
+				//Checks if the product existed.
+				$sql = "SELECT * FROM produto WHERE ean = $ean;";
 				$result = $db->query($sql);
-				//If the category has children, all of the relations in "constituida" will
-				//be changed.
-				//Updates all the relations in "constituida" so that all the children
-				//that were parented by the to-be-deleted category are now parented
-				//by its parent (if it existed) or by a category called "Indefinida"
-				//(undefined).
-				foreach ($result as $cat) {
-					$subcat = $cat['categoria'];
-					echo("<p>$subcategory</p>");
-					if ($harparent == true) {
-						$sql = "UPDATE constituida SET super_categoria = '$parent' WHERE categoria = '$subcat';";	
-					}
-					else {
-						$sql = "DELETE FROM constituida WHERE super_categoria = '$category';";
-					}
-					$db->query($sql);
+				$productExists = false;
+				foreach ($result as $prod) {
+					$ean = $prod['ean'];
+					$productExists = true;
+				}
+				//If it doens't, prints an error message.
+				if (!$productExists) {
+					echo("<p>The product provided does not exist in the database.");
+					break;
 				}
 
-				//Updates all products where category was the to-be-deleted one.
-				$sql = "UPDATE produto SET categoria = '$parent' WHERE categoria = '$category';";	
+				//If it exists, deletes the relations in "fornece_sec".
+				$sql = "DELETE FROM fornece_sec WHERE ean = $ean;";
 				$db->query($sql);
-
-				//Deleted the relation in "constituida" between the to-be-deleted
-				//category and its parent.
-				$sql = "DELETE FROM constituida WHERE categoria = '$category';";
-				$db->query($sql);
-
-				//Deletes the relation in "categoria_simples" (if it existed).
-				$sql = "DELETE FROM categoria_simples WHERE nome = '$category';";
-				$db->query($sql);
-
-				//Deletes the relation in "super_categoria" (if it existed).
-				$sql = "DELETE FROM super_categoria WHERE nome = '$category';";
-				$db->query($sql);
-
-				//Deletes the relation in "categoria".
-				$sql = "DELETE FROM categoria WHERE nome = '$category';";
+				//And also deletes the relation in "produto".
+				$sql = "DELETE FROM produto WHERE ean = $ean;";
 				$db->query($sql);
 
 				break;
 
 			case 3:
-				$category_sub = $_POST["categoria_sub"];
-				$category_super = $_POST["categoria_super"];
-				
-				$sql = "DELETE FROM categoria_simples VALUES ('$category_super');";
-				$db->query($sql);
+				$nif = $_POST["nif"];
+				$nome = $_POST["nome"];
 
-				$sql = "INSERT INTO super_categoria VALUES ('$category_super');";
-				$db->query($sql);
-				
-				$sql = "INSERT INTO constituida VALUES ('$categoria_super', '$category_sub');";
+				//Checks if the to-be-added supplier's nif already existed.
+				$sql = "SELECT * FROM fornecedor WHERE nif = $nif;";
+				$result = $db->query($sql);
+				$nifExists = false;
+				foreach ($result as $forn) {
+					$nif = $forn['nif'];
+					$nifExists = true;
+				}
+				//If it does, prints an error message.
+				if ($nifExists) {
+					echo("<p>The NIF provided already exists in the database.");
+					break;
+				}
+				//If it didn't, adds it.
+				$sql = "INSERT INTO fornecedor VALUES ($nif, '$nome');";
 				$db->query($sql);
 
 				break;
 
 			case 4:
-				$category_sub = $_POST["categoria_sub"];
+				$nif = $_POST["nif"];
 
-				//Gets the parent.
-				$sql = "SELECT super_categoria FROM constituida WHERE categoria = '$category_sub';";
+				//Checks if the to-be-deleted supplier's nif existed.
+				$sql = "SELECT * FROM fornecedor WHERE nif = $nif;";
 				$result = $db->query($sql);
-
-				$parent = '';
-				foreach ($result as $cat) {
-					$parent = $cat['super_categoria'];
+				$nifExists = false;
+				foreach ($result as $forn) {
+					$nifExists = true;
+				}
+				//If it doesn't, prints an error message.
+				if (!$nifExists) {
+					echo("<p>The NIF provided doesn't exist in the database.");
+					break;
 				}
 
-				//Updates the hierarquical relations in "categoria".
-				$sql = "UPDATE constituida SET super_categoria = '$parent' WHERE super_categoria = '$category_sub';";
+				//If it does, checks if the to-be-deleted is a primary supplier.
+				$sql = "SELECT * FROM produto WHERE forn_primario = $nif;";
+				$result = $db->query($sql);
+				$isPrimary = false;
+				$eans = array();
+				$designs = array();
+				foreach ($result as $prod) {
+					$ean = $prod['ean'];
+					$design = $prod['design'];
+					array_push($eans, $ean);
+					array_push($designs, $design);
+					$isPrimary = true;
+				}
+				//If it is, prints an error.
+				if ($isPrimary) {
+					echo("<p>The supplier provided is a primary supplier.
+						This means it cannot be deleted unitl all the products
+						listed below are changed in the database so that
+						their respective primary supplier is another.</p>");
+					
+					echo("<table border=\"1\">\n");
+					echo("<tr><td>EAN</td><td>Designacao</td></tr>");
+					for ($x = 0; $x < count($eans); $x++) {
+						$prodEAN = $eans[$x];
+						$prodDesign = $designs[$x];
+						echo("<tr><td>$prodEAN</td><td>$prodDesign</td></tr>");
+					}
+					echo("</table>");
+					break;
+				}
+
+				//If its not deletes the relations in "fornece_sec".
+				$sql = "DELETE FROM fornece_sec WHERE nif = $nif";
 				$db->query($sql);
 
-				$sql = "DELETE FROM constituida WHERE categoria = '$category_sub';";
+				//Finaly, deletes the supplier from the relation "fornecedor".
+				$sql = "DELETE FROM fornecedor WHERE nif = $nif";
 				$db->query($sql);
-				
+
 				break;
 		}
 		
