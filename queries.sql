@@ -36,9 +36,10 @@ from (
 \echo ''
 \echo '..............................'
 
-select F.nome, P.forn_primario as nif, count(distinct categoria) as unique_cats
-from produto as P natural join fornecedores as F
-group by P.forn_primario
+select F.nome, P.forn_primario as nif
+from produto as P, fornecedor as F
+where P.forn_primario = F.nif
+group by F.nome, P.forn_primario
 having count(distinct categoria) = (select count(S.nome) from categoria_simples as S);
 
 
