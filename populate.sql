@@ -15,6 +15,8 @@ insert into categoria values ('Fruta');
 insert into categoria values ('Lacticinios');
 insert into categoria values ('Leite de Vaca');
 insert into categoria values ('Iogurte');
+insert into categoria values ('Cereais especiais');
+insert into categoria values ('Indefinido');
 
 insert into categoria_simples values ('Cereais Pequeno Almoco');
 insert into categoria_simples values ('Cereais Comuns');
@@ -34,6 +36,7 @@ insert into super_categoria values ('Doces');
 insert into super_categoria values ('Carne');
 insert into super_categoria values ('Peixe');
 insert into super_categoria values ('Lacticinios');
+insert into super_categoria values ('Indefinido');
 
 insert into constituida values ('Cereais', 'Cereais Pequeno Almoco');
 insert into constituida values ('Cereais', 'Cereais Comuns');
@@ -46,7 +49,9 @@ insert into constituida values ('Peixe', 'Peixe de Mar');
 insert into constituida values ('Peixe', 'Peixe de Rio');
 insert into constituida values ('Lacticinios', 'Leite de Vaca');
 insert into constituida values ('Lacticinios', 'Iogurte');
+insert into constituida values ('Cereais', 'Cereais especiais');
 
+insert into fornecedor values (100000000, 'Rafael');
 insert into fornecedor values (267081367, 'Nestle');
 insert into fornecedor values (381710131, 'JMiguel');
 insert into fornecedor values (912371610, 'Casa dos Cereais');
@@ -66,6 +71,20 @@ insert into fornecedor values (780176631, 'Sabores Do Mar');
 insert into fornecedor values (253191001, 'Frutogal');
 insert into fornecedor values (278310135, 'Mercearia21');
 insert into fornecedor values (111716311, 'Sociedade do Leite');
+
+insert into produto values (1000000000000, 'aa', 'Cereais Pequeno Almoco', 100000000, '2017-01-05');
+insert into produto values (1000000000001, 'bb', 'Cereais Comuns', 100000000, '2017-01-05');
+insert into produto values (1000000000002, 'cc', 'Chocolate', 100000000, '2017-01-05');
+insert into produto values (1000000000003, 'dd', 'Bolachas', 100000000, '2017-01-05');
+insert into produto values (1000000000004, 'ee', 'Peixe de Mar', 100000000, '2017-01-05');
+insert into produto values (1000000000005, 'ff', 'Peixe de Rio', 100000000, '2017-01-05');
+insert into produto values (1000000000006, 'gg', 'Carne Bovina', 100000000, '2017-01-05');
+insert into produto values (1000000000007, 'hh', 'Carne de Aves', 100000000, '2017-01-05');
+insert into produto values (1000000000008, 'ii', 'Carne Suina', 100000000, '2017-01-05');
+insert into produto values (1000000000009, 'jj', 'Fruta', 100000000, '2017-01-05');
+insert into produto values (1000000000010, 'kk', 'Leite de Vaca', 100000000, '2017-01-05');
+insert into produto values (1000000000011, 'll', 'Iogurte', 100000000, '2017-01-05');
+
 
 insert into produto values (1173946541904, 'Chocapic', 'Cereais Pequeno Almoco',267081367,'2017-07-29');
 insert into produto values (1485975080046, 'Cheerios', 'Cereais Pequeno Almoco', 267081367,'2017-02-05');
