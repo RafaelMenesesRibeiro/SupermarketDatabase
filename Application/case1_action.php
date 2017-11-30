@@ -10,7 +10,6 @@
 		$db->query("start transaction;");
 		
 		$case = $_POST["case"];
-		echo("<p>$case</p>");
 		switch($case) {
 			case 1:
 				$categoria = $_POST["categoria"];
