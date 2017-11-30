@@ -52,33 +52,33 @@ CREATE TABLE constituida (
 
 CREATE TABLE fornecedor (
 	--TODO - ask teacher.
-	nif        integer NOT NULL UNIQUE,
+	nif        numeric(9, 0) NOT NULL UNIQUE,
 	nome       varchar(80) NOT NULL,
-	CONSTRAINT pk_fornecedor PRIMARY KEY(nif)
+	CONSTRAINT pk_fornecedor PRIMARY KEY(nif),
+	CONSTRAINT valid_nif CHECK (nif BETWEEN 100000000 and 999999999)
 );
 
 CREATE TABLE produto (
-	--TODO - change to numeric
-	ean           bigint NOT NULL UNIQUE,
+	ean           numeric(13, 0) NOT NULL UNIQUE,
 	design        varchar(80) NOT NULL,
 	categoria     varchar(80) NOT NULL,
 	forn_primario integer NOT NULL,
 	data          date NOT NULL,
 	CONSTRAINT    pk_produto PRIMARY KEY(ean),
-	--TODO - change to numeric.
-	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    fk_produto_categoria FOREIGN KEY(categoria) REFERENCES categoria(nome),
-	CONSTRAINT    fk_produto_forn_primario FOREIGN KEY(forn_primario) REFERENCES fornecedor(nif)
+	CONSTRAINT    fk_produto_forn_primario FOREIGN KEY(forn_primario) REFERENCES fornecedor(nif),
 	--CONSTRAINT    ri_re3 #TODO
+	CONSTRAINT valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
 
 CREATE TABLE fornece_sec (
-	nif           integer NOT NULL,
-	ean           bigint NOT NULL,
+	nif           numeric(9, 0) NOT NULL,
+	ean           numeric(13, 0) NOT NULL,
 	CONSTRAINT    pk_fornece_sec PRIMARY KEY(nif, ean),
-	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    fk_fornece_sec_nif FOREIGN KEY(nif) REFERENCES fornecedor(nif),
-	CONSTRAINT    fk_fornece_sec_ean FOREIGN KEY(ean) REFERENCES produto(ean)
+	CONSTRAINT    fk_fornece_sec_ean FOREIGN KEY(ean) REFERENCES produto(ean),
+	CONSTRAINT    valid_nif CHECK (nif BETWEEN 100000000 and 999999999),
+	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
 
 CREATE TABLE corredor (
@@ -88,7 +88,6 @@ CREATE TABLE corredor (
 );
 
 CREATE TABLE prateleira (
-	--TODO - check if unique is needed
 	nro           integer NOT NULL,
 	--TODO - add constraint to only be 'esquerda' or 'direita'
 	lado          char(8) NOT NULL,
@@ -98,8 +97,7 @@ CREATE TABLE prateleira (
 );
 
 CREATE TABLE planograma(
-	--TODO - change to numeric.
-	ean           bigint NOT NULL,
+	ean           numeric(13, 0) NOT NULL,
 	nro           integer NOT NULL,
 	--TODO - add constraint to only be 'esquerda' or 'direita'
 	lado          char(8) NOT NULL,
@@ -109,11 +107,10 @@ CREATE TABLE planograma(
 	face          integer NOT NULL,
 	unidades      integer NOT NULL,
 	loc           integer NOT NULL,
-	--TODO - change to numeric.
-	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    pk_planograma PRIMARY KEY(ean, nro, lado, altura),
 	CONSTRAINT    fk_planograma_ean FOREIGN KEY(ean) REFERENCES produto(ean),
-	CONSTRAINT    fk_planograma_nro FOREIGN KEY(nro, lado, altura) REFERENCES prateleira(nro, lado, altura)
+	CONSTRAINT    fk_planograma_nro FOREIGN KEY(nro, lado, altura) REFERENCES prateleira(nro, lado, altura),
+	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
 
 CREATE TABLE evento_reposicao(
@@ -124,8 +121,7 @@ CREATE TABLE evento_reposicao(
 );
 
 CREATE TABLE reposicao(
-	--TODO - change to numeric.
-	ean           bigint NOT NULL,
+	ean           numeric(13, 0) NOT NULL,
 	nro           integer NOT NULL,
 	--TODO - add constraint to only be 'esquerda' or 'direita'
 	lado          char(8) NOT NULL,
@@ -134,12 +130,10 @@ CREATE TABLE reposicao(
 	operador      integer NOT NULL,
 	instante      date NOT NULL,
 	unidades      integer NOT NULL,
-	--TODO - change to numeric.
-	--CONSTRAINT    valid_ean CHECK (ean BETWEEN 000000000 and 999999999),
 	CONSTRAINT    pk_reposicao PRIMARY KEY(ean, nro, lado, altura, operador, instante),
 	CONSTRAINT    fk_reposicao_ean FOREIGN KEY(ean, nro, lado, altura) REFERENCES planograma(ean, nro, lado, altura),
-	CONSTRAINT    fk_reposicao_operador FOREIGN KEY(operador, instante) REFERENCES evento_reposicao(operador, instante)
-
+	CONSTRAINT    fk_reposicao_operador FOREIGN KEY(operador, instante) REFERENCES evento_reposicao(operador, instante),
+	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
 ----------------------------------------
 -- Populate Relations
