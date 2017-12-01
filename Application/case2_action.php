@@ -1,4 +1,14 @@
 <?php
+	function supplierExists($db, $nif) {
+		$sql = "SELECT * FROM fornecedor WHERE nif = $nif;";
+		$result = $db->query($sql);
+		foreach ($result as $forn) {
+			$h = $forn['nif'];
+			return true;
+		}
+		return false;
+	}
+
 	try {
 		$host = "db.ist.utl.pt";
 		$user ="ist426058";
@@ -37,24 +47,42 @@
 				}
 
 				//Checks if the supplier exists.
-				$sql = "SELECT * FROM fornecedor WHERE nif = $nif;";
-				$result = $db->query($sql);
-				$supplierExists = false;
-				foreach ($result as $forn) {
-					$nif = $forn['nif'];
-					$supplierExists = true;
-				}
 				//If the supplier isn't in the database yet prints an error
 				//message.
-				if (!$supplierExists) {
+				if (!supplierExists($db, $nif)) {
 					echo("<p>The supplier provided does not exist in the database.
 						Use the previous page to add one and then create the product.</p>");
 					break;
 				}
-				
+
+				$secondarySuppliers = array();
+				$i = 0;
+				while (true) {
+					$i += 1;
+					$variableName = 'secondary' . $i;
+					if (!isset($_POST[$variableName])) {
+						break;
+					}
+					$newSec = $_POST[$variableName];
+
+					//Checks if the supplier exists.
+					if (!supplierExists($db, $newSec)) {
+						echo("<p>The supplier provided does not exist in the database.
+							Use the previous page to add one and then create the product.</p>");
+						break;
+					}
+					array_push($secondarySuppliers, $newSec);
+				}
+
 				//If the supplier was already in the database, creates the product.
 				$sql = "INSERT INTO produto VALUES ($ean, '$design', '$category', '$nif', '$date');";
 				$db->query($sql);
+
+				for ($x = 0; $x < count($secondarySuppliers); $x++) {
+					$nif_sec = $secondarySuppliers[$x];
+					$sql = "INSERT INTO fornece_sec VALUES ($nif_sec, $ean);";
+					$db->query($sql);
+				}
 
 				break;
 

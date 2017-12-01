@@ -8,8 +8,14 @@
 			<p>Categoria do produto a inserir: <input type="text" name="category"/></p>
 			<p>NIF do fornecedor primario do produto a inserir: <input type="text" name="nif"/></p>
 			<p>Data do fornecedor primario do produto a inserir (yyyy-mm-dd): <input type="text" name="date"/></p>
+
+			<div id="secondary_suppliers">
+				<p>NIF de fornecedor secundario 1: <input type="text" name="secondary1"/></p>
+			</div>
+		
 			<p><input type="submit" value="Submit"/></p>
 		</form>
+		<button onclick="addSecondary()">Add secondary supplier slot</button>
 
 		<h3>Remover produto</h3>
 		<form action="case2_action.php" method="post">
@@ -34,4 +40,22 @@
 		</form>
 
 	</body>
+
+	<script type="text/javascript">
+		var i = 1;
+
+		function addSecondary() {
+			i++;
+			var container = document.createElement("p");
+			var node = document.createTextNode("NIF de fornecedor secundario " + i + " : ");
+			container.appendChild(node);
+
+			var input = document.createElement("input");
+			input.type = "text";
+			input.name = "secondary" + i;
+		
+			container.appendChild(input);
+			document.getElementById('secondary_suppliers').appendChild(container);
+		}
+	</script>
 </html>
