@@ -101,14 +101,27 @@
 				$parent = '';
 				foreach ($result as $cat) {
 					$parent = $cat['super_categoria'];
-				}
-
-				//Updates the hierarquical relations in "categoria".
-				$sql = "UPDATE constituida SET super_categoria = '$parent' WHERE super_categoria = '$category_sub';";
-				$db->query($sql);
+				}	
 
 				$sql = "DELETE FROM constituida WHERE categoria = '$category_sub';";
 				$db->query($sql);
+
+				if ($parent != '') {
+					$sql = "SELECT categoria FROM constituida WHERE super_categoria = '$parent';";
+					$result = $db->query($sql);
+
+					$children = array();
+					foreach ($result as $cat) {
+						$child = $cat['categoria'];
+						array_push($children, $child);
+					}
+					if (sizeof($children) == 0) {
+						$sql = "DELETE FROM super_categoria WHERE nome = '$parent';";
+						$db->query($sql);
+						$sql = "INSERT INTO categoria_simples VALUES ('$parent');";
+						$db->query($sql);
+					}
+				}
 				
 				break;
 		}
