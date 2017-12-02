@@ -10,27 +10,29 @@
 		$db->query("start transaction;");
 		$ean = $_POST["ean"];
 		$designation = $_POST["designation"];
-		$sql = "UPDATE produto SET design = '$designation' WHERE ean = $ean;";
-		$db->query($sql);		
-		$db->query("commit;");
-
-		$check = "SELECT * FROM produto WHERE ean = $ean;";
-		$result = $db->query($check);
-
-		echo("<table border=\"1\">\n");
-		echo("<tr><td>Product EAN</td><td>Designacao</td><td>Categoria</td></tr>\n");
-		foreach($result as $row)
-		{
-			echo("<tr><td>");
-			echo($row['ean']);
-			echo("</td><td>");
-			echo($row['design']);
-			echo("</td><td>");
-			echo($row['categoria']);
-			echo("</td></tr>\n");
+		
+		$sql = "SELECT * FROM produto WHERE ean = $ean;";
+		$result = $db->query($sql);
+		//Checks if the product exists.
+		$productExists = false;
+		$oldDesign = '';
+		foreach ($result as $prod) {
+			$oldDesign = $prod['design'];
+			$productExists = true;
 		}
-		echo("</table>\n");
+		//If it doens't exist, prints an error message.
+		if (!$productExists) {
+			echo("<p>The product does not exist. Use <a href='http://web.ist.utl.pt/ist426058/case2.php'>this page</a> to add it.</p>");
+		}
+		//If it exists, updates the designation.
+		else {
+			$sql = "UPDATE produto SET design = '$designation' WHERE ean = $ean;";
+			$db->query($sql);
+			echo("<p>The designation of your product was changed from
+				$oldDesign to $designation</p>");
+		}
 
+		$db->query("commit;");
 		$db = null;
 	}
 	catch (PDOException $e) {
