@@ -80,13 +80,24 @@
 				$category_sub = $_POST["categoria_sub"];
 				$category_super = $_POST["categoria_super"];
 				
-				$sql = "DELETE FROM categoria_simples VALUES ('$category_super');";
-				$db->query($sql);
+				//Checks if category was already super.
+				$sql = "SELECT * FROM super_categoria WHERE nome = '$category_super';";
+				$result = $db->query($sql);
+				$alreadySuper = false;
+				foreach ($result as $cat) {
+					$name = $cat['nome'];
+					$alreadySuper = true;
+				}
+				//Only promotes the category to super if it wasn't already.
+				if (!$alreadySuper) {
+					$sql = "DELETE FROM categoria_simples WHERE nome ='$category_super';";
+					$db->query($sql);
 
-				$sql = "INSERT INTO super_categoria VALUES ('$category_super');";
-				$db->query($sql);
+					$sql = "INSERT INTO super_categoria VALUES ('$category_super');";
+					$db->query($sql);
+				}
 				
-				$sql = "INSERT INTO constituida VALUES ('$categoria_super', '$category_sub');";
+				$sql = "INSERT INTO constituida VALUES ('$category_super', '$category_sub');";
 				$db->query($sql);
 
 				break;
