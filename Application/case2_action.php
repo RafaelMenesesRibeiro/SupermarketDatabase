@@ -116,16 +116,10 @@
 				$nif = $_POST["nif"];
 				$nome = $_POST["nome"];
 
+
 				//Checks if the to-be-added supplier's nif already existed.
-				$sql = "SELECT * FROM fornecedor WHERE nif = $nif;";
-				$result = $db->query($sql);
-				$nifExists = false;
-				foreach ($result as $forn) {
-					$nif = $forn['nif'];
-					$nifExists = true;
-				}
 				//If it does, prints an error message.
-				if ($nifExists) {
+				if (supplierExists($db, $nif)) {
 					echo("<p>The NIF provided already exists in the database.");
 					break;
 				}
@@ -139,14 +133,8 @@
 				$nif = $_POST["nif"];
 
 				//Checks if the to-be-deleted supplier's nif existed.
-				$sql = "SELECT * FROM fornecedor WHERE nif = $nif;";
-				$result = $db->query($sql);
-				$nifExists = false;
-				foreach ($result as $forn) {
-					$nifExists = true;
-				}
 				//If it doesn't, prints an error message.
-				if (!$nifExists) {
+				if (!supplierExists($db, $nif)) {
 					echo("<p>The NIF provided doesn't exist in the database.");
 					break;
 				}
