@@ -16,21 +16,36 @@
 			";
 		$result = $db->query($sql);
 		
-        echo("<table border=\"1\">\n");
-        echo("<tr><td>Product EAN</td><td>Operator</td><td>Instante</td><td>Unidades</td></tr>\n");
-        foreach($result as $row)
-        {
-            echo("<tr><td>");
-            echo($row['ean']);
-            echo("</td><td>");
-            echo($row['operador']);
-            echo("</td><td>");
-            echo($row['instante']);
-            echo("</td><td>");
-            echo($row['unidades']);
-            echo("</td></tr>\n");
-        }
-        echo("</table>\n");
+		//Checks if there was any restocking event.
+		$hasEvents = false;
+		$events = array();
+		foreach($result as $row) {
+			$event = array();
+			array_push($event, $row['operador'], $row['instante'], $row['unidades']);
+			array_push($events, $event);
+			$hasEvents = true;
+			
+		}
+		//If there wasn't any, prints an error message.
+		if (!$hasEvents) {
+			echo("<p>The given product hasn't been restocked yet.</p>");
+		}
+		//If there was, shows them in a table.
+		else {
+			echo("Restocking events for product $ean");
+			echo("<table border=\"1\">\n");
+			echo("<tr><td>Operator</td><td>Instante</td><td>Unidades</td></tr>\n");
+			for ($x = 0; $x < count($events); $x++) {
+				echo("<tr><td>");
+				echo($events[$x][0]);
+				echo("</td><td>");
+				echo($events[$x][1]);
+				echo("</td><td>");
+				echo($events[$x][2]);
+				echo("</td></tr>\n");
+			}
+			echo("</table>\n");
+		}
 
 		$db->query("commit;");
 		$db = null;
