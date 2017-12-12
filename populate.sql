@@ -83,7 +83,7 @@ insert into produto values (1000000000007, 'hh', 'Carne de Aves', 100000000, '20
 insert into produto values (1000000000008, 'ii', 'Carne Suina', 100000000, '2017-01-05');
 insert into produto values (1000000000009, 'jj', 'Fruta', 100000000, '2017-01-05');
 insert into produto values (1000000000010, 'kk', 'Leite de Vaca', 100000000, '2017-01-05');
-insert into produto values (1000000000011, 'll', 'Iogurte', 100000000, '2017-01-05');
+insert into produto values (1000000000011, 'll', 'Iogurte', 267081367, '2017-01-05');
 
 
 insert into produto values (1173946541904, 'Chocapic', 'Cereais Pequeno Almoco',267081367,'2017-07-29');
@@ -247,6 +247,10 @@ insert into evento_reposicao values (10597139, '2017-11-27');
 insert into evento_reposicao values (20971336, '2017-11-27');
 insert into evento_reposicao values (18974697, '2017-11-26');
 insert into evento_reposicao values (13939999, '2017-11-28');
+
+insert into planograma values (1000000000011, 1, 'esquerdo', 'chao', 1, 10, 1);
+insert into evento_reposicao values (13937979, '1995-09-21');
+insert into reposicao values (1000000000011, 1, 'esquerdo', 'chao', 13937979, '1995-09-21', 5);
 
 insert into reposicao values (1173946541904, 1, 'esquerdo', 'chao', 13937979, '2017-11-21', 5);
 insert into reposicao values (1485975080046, 1, 'esquerdo', 'medio', 13937979, '2017-11-21', 5);
