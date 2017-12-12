@@ -16,58 +16,21 @@ CREATE TABLE d_produto (
 );
 
 CREATE TABLE d_tempo (
+	dateid 		int NOT NULL,
 	dia			int NOT NULL,
 	mes			int NOT NULL,
 	ano			int NOT NULL,
-	CONSTRAINT    pk_d_tempo PRIMARY KEY(dia, mes, ano)
+	CONSTRAINT  pk_d_tempo PRIMARY KEY(dateid)
 );
 
 ----------------------------------------
 -- Facts Table Creation
 ----------------------------------------
 CREATE TABLE facts (
-	ean 		numeric(13, 0) NOT NULL UNIQUE,
-	dia			int NOT NULL,
-	mes			int NOT NULL,
-	ano			int NOT NULL,
-	CONSTRAINT    pk_d_facts PRIMARY KEY(ean, dia, mes, ano),
+	ean 		numeric(13, 0) NOT NULL,
+	dateid		int NOT NULL,
+	CONSTRAINT    pk_d_facts PRIMARY KEY(ean, dateid),
 	CONSTRAINT    fk_d_facts_ean FOREIGN KEY(ean) REFERENCES d_produto(ean),
-	CONSTRAINT    fk_d_facts_instante FOREIGN KEY(dia, mes, ano) REFERENCES d_tempo(dia, mes, ano)
+	CONSTRAINT    fk_d_facts_dateid FOREIGN KEY(dateid) REFERENCES d_tempo(dateid)
 );
 
-----------------------------------------
--- Data insertion for d_produto
-----------------------------------------
-INSERT INTO d_produto
-SELECT ean, categoria, forn_primario
-FROM produto;
-
-----------------------------------------
--- Creates the trigger for d_tempo
-----------------------------------------
-CREATE OR REPLACE FUNCTION do_d_tempo() RETURNS trigger as $$
-	begin
-		if (new.dia, new.mes, new.ano) in ( select * from d_tempo)
-		then return NULL;
-		end if;
-		return NEW;
-	end;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER chk_d_tempo
-	before insert or update on d_tempo
-	FOR each row execute procedure do_d_tempo()
-;
-
-----------------------------------------
--- Data insertion for d_tempo
-----------------------------------------
-INSERT INTO d_tempo
-SELECT 	extract(day FROM instante), 
-		extract(month FROM instante),
-		extract(year FROM instante)
-FROM reposicao;
-
-----------------------------------------
--- Data insertion for facts
-----------------------------------------
