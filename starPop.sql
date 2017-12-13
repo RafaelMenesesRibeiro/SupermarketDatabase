@@ -22,10 +22,6 @@ FROM reposicao;
 ----------------------------------------
 -- Data insertion for facts
 ----------------------------------------
-----------------------------------------
--- The trigger for duplicate keys is
--- in trigger.sql
-----------------------------------------
 INSERT INTO facts
-SELECT 	R.ean, to_char(R.instante, 'YYYYMMDD')::integer
+SELECT 	R.ean, to_char(R.instante, 'YYYYMMDD')::integer, R.unidades
 FROM reposicao as R;
