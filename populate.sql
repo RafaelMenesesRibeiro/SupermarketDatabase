@@ -249,8 +249,8 @@ insert into evento_reposicao values (18974697, '2017-11-26');
 insert into evento_reposicao values (13939999, '2017-11-28');
 
 insert into planograma values (1000000000011, 1, 'esquerdo', 'chao', 1, 10, 1);
-insert into evento_reposicao values (13937979, '1995-09-21');
-insert into reposicao values (1000000000011, 1, 'esquerdo', 'chao', 13937979, '1995-09-21', 5);
+insert into evento_reposicao values (13937979, '2019-09-21');
+insert into reposicao values (1000000000011, 1, 'esquerdo', 'chao', 13937979, '2019-09-21', 5);
 
 insert into reposicao values (1173946541904, 1, 'esquerdo', 'chao', 13937979, '2017-11-21', 5);
 insert into reposicao values (1485975080046, 1, 'esquerdo', 'medio', 13937979, '2017-11-21', 5);
