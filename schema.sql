@@ -58,6 +58,7 @@ CREATE TABLE fornecedor (
 	CONSTRAINT valid_nif CHECK (nif BETWEEN 100000000 and 999999999)
 );
 
+
 CREATE TABLE produto (
 	ean           numeric(13, 0) NOT NULL UNIQUE,
 	design        varchar(80) NOT NULL,
@@ -71,6 +72,11 @@ CREATE TABLE produto (
 	CONSTRAINT valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
 
+--CREATE INDEX produto_categoria_index on produto USING GIN (categoria);
+--CREATE INDEX produto_categoria_index on produto (categoria);
+--CREATE INDEX produto_ean_index on produto (ean);
+
+
 CREATE TABLE fornece_sec (
 	nif           numeric(9, 0) NOT NULL,
 	ean           numeric(13, 0) NOT NULL,
@@ -80,6 +86,8 @@ CREATE TABLE fornece_sec (
 	CONSTRAINT    valid_nif CHECK (nif BETWEEN 100000000 and 999999999),
 	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
+
+--CREATE INDEX fornece_sec_nif_index on fornece_sec (nif);
 
 CREATE TABLE corredor (
 	nro           integer NOT NULL UNIQUE,
