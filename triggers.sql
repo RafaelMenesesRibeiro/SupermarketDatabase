@@ -52,20 +52,3 @@ CREATE TRIGGER chk_d_tempo
 	before insert or update on d_tempo
 	FOR each row execute procedure do_d_tempo()
 ;
-
-----------------------------------------
--- Creates the trigger for facts
-----------------------------------------
-CREATE OR REPLACE FUNCTION do_facts() RETURNS trigger as $$
-	begin
-		if (new.ean, new.dateid) in (select * from facts)
-		then return NULL;
-		end if;
-		return NEW;
-	end;
-$$ LANGUAGE 'plpgsql';
-
-CREATE TRIGGER chk_facts
-	before insert or update on facts
-	FOR each row execute procedure do_facts()
-;
