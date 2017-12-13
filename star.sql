@@ -6,13 +6,11 @@ drop table if exists facts CASCADE;
 -- Dimension Tables Creation
 ----------------------------------------
 CREATE TABLE d_produto (
-	ean           numeric(13, 0) NOT NULL UNIQUE,
+	ean           numeric(13, 0) NOT NULL,
 	categoria     varchar(80) NOT NULL,
 	forn_primario integer NOT NULL,
 	CONSTRAINT    pk_d_produto PRIMARY KEY(ean),
-	CONSTRAINT    fk_d_produto_categoria FOREIGN KEY(categoria) REFERENCES categoria(nome),
-	CONSTRAINT    fk_d_produto_forn_primario FOREIGN KEY(forn_primario) REFERENCES fornecedor(nif),
-	CONSTRAINT 	  d_valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
+	CONSTRAINT    fk_d_produto FOREIGN KEY(ean) REFERENCES produto(ean)
 );
 
 CREATE TABLE d_tempo (
@@ -29,8 +27,9 @@ CREATE TABLE d_tempo (
 CREATE TABLE facts (
 	ean 		numeric(13, 0) NOT NULL,
 	dateid		int NOT NULL,
-	CONSTRAINT    pk_d_facts PRIMARY KEY(ean, dateid),
-	CONSTRAINT    fk_d_facts_ean FOREIGN KEY(ean) REFERENCES d_produto(ean),
-	CONSTRAINT    fk_d_facts_dateid FOREIGN KEY(dateid) REFERENCES d_tempo(dateid)
+	unidades 	int NOT NULL,
+	CONSTRAINT  pk_d_facts PRIMARY KEY(ean, dateid),
+	CONSTRAINT  fk_d_facts_ean FOREIGN KEY(ean) REFERENCES d_produto(ean),
+	CONSTRAINT  fk_d_facts_dateid FOREIGN KEY(dateid) REFERENCES d_tempo(dateid)
 );
 
