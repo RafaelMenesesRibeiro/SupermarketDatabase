@@ -72,7 +72,7 @@ CREATE TABLE produto (
 	CONSTRAINT valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
 
---CREATE INDEX produto_categoria_index on produto USING GIN (categoria);
+--CREATE INDEX on produto (categoria);
 --CREATE INDEX produto_categoria_index on produto (categoria);
 --CREATE INDEX produto_ean_index on produto (ean);
 
