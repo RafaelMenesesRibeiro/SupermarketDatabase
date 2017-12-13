@@ -72,8 +72,8 @@ insert into fornecedor values (253191001, 'Frutogal');
 insert into fornecedor values (278310135, 'Mercearia21');
 insert into fornecedor values (111716311, 'Sociedade do Leite');
 
-insert into produto values (1000000000000, 'aa', 'Cereais Pequeno Almoco', 100000000, '2017-01-05');
-insert into produto values (1000000000001, 'bb', 'Cereais Comuns', 100000000, '2017-01-05');
+insert into produto values (1000000000000, 'aa', 'Cereais Pequeno Almoco', 267081367, '2017-01-05');
+insert into produto values (1000000000001, 'bb', 'Cereais Comuns', 267081367, '2017-01-05');
 insert into produto values (1000000000002, 'cc', 'Chocolate', 100000000, '2017-01-05');
 insert into produto values (1000000000003, 'dd', 'Bolachas', 100000000, '2017-01-05');
 insert into produto values (1000000000004, 'ee', 'Peixe de Mar', 100000000, '2017-01-05');
@@ -249,8 +249,18 @@ insert into evento_reposicao values (18974697, '2017-11-26');
 insert into evento_reposicao values (13939999, '2017-11-28');
 
 insert into planograma values (1000000000011, 1, 'esquerdo', 'chao', 1, 10, 1);
-insert into evento_reposicao values (13937979, '2019-09-21');
-insert into reposicao values (1000000000011, 1, 'esquerdo', 'chao', 13937979, '2019-09-21', 5);
+insert into evento_reposicao values (13937979, '2012-09-21');
+insert into reposicao values (1000000000011, 1, 'esquerdo', 'chao', 13937979, '2012-09-21', 5);
+
+insert into planograma values (1000000000001, 1, 'esquerdo', 'chao', 1, 10, 1);
+insert into evento_reposicao values (13937979, '2013-08-21');
+insert into reposicao values (1000000000001, 1, 'esquerdo', 'chao', 13937979, '2013-08-21', 5);
+
+insert into planograma values (1000000000002, 1, 'esquerdo', 'chao', 1, 10, 1);
+insert into evento_reposicao values (13937979, '2013-09-21');
+insert into reposicao values (1000000000002, 1, 'esquerdo', 'chao', 13937979, '2013-09-21', 5);
+
+
 
 insert into reposicao values (1173946541904, 1, 'esquerdo', 'chao', 13937979, '2017-11-21', 5);
 insert into reposicao values (1485975080046, 1, 'esquerdo', 'medio', 13937979, '2017-11-21', 5);

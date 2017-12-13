@@ -19,4 +19,4 @@ UNION
 	FROM facts as F natural join d_produto as P natural join d_tempo as T
 	WHERE P.forn_primario = 267081367)
 ) as K	
-ORDER BY count;
+ORDER BY count, K.ano, K.mes, K.categoria;
