@@ -17,7 +17,9 @@ insert into categoria values ('Leite de Vaca');
 insert into categoria values ('Iogurte');
 insert into categoria values ('Cereais especiais');
 insert into categoria values ('Indefinido');
+insert into categoria values ('Frutos');
 
+insert into categoria_simples values ('Frutos');
 insert into categoria_simples values ('Cereais Pequeno Almoco');
 insert into categoria_simples values ('Cereais Comuns');
 insert into categoria_simples values ('Chocolate');
@@ -71,6 +73,15 @@ insert into fornecedor values (780176631, 'Sabores Do Mar');
 insert into fornecedor values (253191001, 'Frutogal');
 insert into fornecedor values (278310135, 'Mercearia21');
 insert into fornecedor values (111716311, 'Sociedade do Leite');
+
+
+insert into produto values (1000000000012, 'ab', 'Frutos', 100000000, '2017-01-05');
+insert into produto values (1000000000013, 'ac', 'Frutos', 267081367, '2017-01-05');
+insert into produto values (1000000000014, 'ad', 'Frutos', 381710131, '2017-01-05');
+insert into produto values (1000000000015, 'ae', 'Frutos', 912371610, '2017-01-05');
+insert into produto values (1000000000016, 'af', 'Frutos', 113156131, '2017-01-05');
+insert into produto values (1000000000017, 'ag', 'Frutos', 411317713, '2017-01-05');
+insert into produto values (1000000000018, 'ah', 'Frutos', 901725618, '2017-01-05');
 
 insert into produto values (1000000000000, 'aa', 'Cereais Pequeno Almoco', 267081367, '2017-01-05');
 insert into produto values (1000000000001, 'bb', 'Cereais Comuns', 267081367, '2017-01-05');
