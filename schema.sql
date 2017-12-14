@@ -58,7 +58,6 @@ CREATE TABLE fornecedor (
 	CONSTRAINT valid_nif CHECK (nif BETWEEN 100000000 and 999999999)
 );
 
-
 CREATE TABLE produto (
 	ean           numeric(13, 0) NOT NULL UNIQUE,
 	design        varchar(80) NOT NULL,
@@ -71,11 +70,6 @@ CREATE TABLE produto (
 	--CONSTRAINT    ri_re3 #TODO
 	CONSTRAINT valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
-
---CREATE INDEX on produto (categoria);
---CREATE INDEX produto_categoria_index on produto (categoria);
---CREATE INDEX produto_ean_index on produto (ean);
-
 
 CREATE TABLE fornece_sec (
 	nif           numeric(9, 0) NOT NULL,
@@ -143,6 +137,15 @@ CREATE TABLE reposicao(
 	CONSTRAINT    fk_reposicao_operador FOREIGN KEY(operador, instante) REFERENCES evento_reposicao(operador, instante),
 	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
 );
+
 ----------------------------------------
--- Populate Relations
+-- Index Creation
 ----------------------------------------
+-- 1) Liste o nif e nome de todos os fornecedores primários da categoria 'Frutos'.
+CREATE INDEX product_cat_idx ON produto (categoria);
+CREATE UNIQUE INDEX supplier_nif_idx ON fornecedor (nif);
+
+-- 2) Liste o número fornecedores secundários de cada produto com mais de 1 
+--	  fornecedor secundário.
+--CREATE UNIQUE INDEX product_ean_idx ON produto (ean);
+--CREATE UNIQUE INDEX supplier_sec_ean_idx ON fornece_sec (ean);
