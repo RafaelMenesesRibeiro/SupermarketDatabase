@@ -1,3 +1,4 @@
+/*
 -- a) O fornecedor (primário) de um produto não pode existir na relação 
 --	  fornece_sec para o mesmo produto.
 CREATE OR REPLACE FUNCTION do_produto() RETURNS trigger as $$
@@ -12,6 +13,7 @@ $$ LANGUAGE 'plpgsql';
 CREATE TRIGGER chk_produto
 	before insert or update on produto
 	FOR each row execute procedure do_produto();
+*/
 
 -- b) O instante mais recente de reposição tem de ser sempre anterior ou igual 
 --	  à data atual.

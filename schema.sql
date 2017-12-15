@@ -68,8 +68,15 @@ CREATE TABLE produto (
 	CONSTRAINT    fk_produto_categoria FOREIGN KEY(categoria) REFERENCES categoria(nome),
 	CONSTRAINT    fk_produto_forn_primario FOREIGN KEY(forn_primario) REFERENCES fornecedor(nif),
 	--CONSTRAINT    ri_re3 #TODO
-	CONSTRAINT valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
+	CONSTRAINT valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	CONSTRAINT product_is_nif_sec CHECK ((isNIFSec(ean, forn_primario) = 0))
 );
+
+CREATE OR REPLACE FUNCTION isNIFSec(ean numeric, nif integer) RETURNS int as $$
+	begin
+    return (select count(1) from(select 1 from fornece_sec as S where S.ean = $1 and S.nif = $2) as K);
+	end
+$$ LANGUAGE 'plpgsql';
 
 CREATE TABLE fornece_sec (
 	nif           numeric(9, 0) NOT NULL,
@@ -78,10 +85,15 @@ CREATE TABLE fornece_sec (
 	CONSTRAINT    fk_fornece_sec_nif FOREIGN KEY(nif) REFERENCES fornecedor(nif),
 	CONSTRAINT    fk_fornece_sec_ean FOREIGN KEY(ean) REFERENCES produto(ean),
 	CONSTRAINT    valid_nif CHECK (nif BETWEEN 100000000 and 999999999),
-	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999)
+	CONSTRAINT    valid_ean CHECK (ean BETWEEN 1000000000000 and 9999999999999),
+	CONSTRAINT 	  fornece_sec_is_nif_prim CHECK ((isNIFPrim(CAST(ean as numeric), CAST(nif as numeric)) = 0))
 );
 
---CREATE INDEX fornece_sec_nif_index on fornece_sec (nif);
+CREATE OR REPLACE FUNCTION isNIFPrim(ean numeric, nif numeric) RETURNS int as $$
+	begin
+    return (select count(1) from(select 1 from produto as P where P.ean = $1 and P.forn_primario = $2) as K);
+	end
+$$ LANGUAGE 'plpgsql';
 
 CREATE TABLE corredor (
 	nro           integer NOT NULL UNIQUE,
