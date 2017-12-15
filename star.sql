@@ -9,8 +9,7 @@ CREATE TABLE d_produto (
 	ean           numeric(13, 0) NOT NULL,
 	categoria     varchar(80) NOT NULL,
 	forn_primario integer NOT NULL,
-	CONSTRAINT    pk_d_produto PRIMARY KEY(ean),
-	CONSTRAINT    fk_d_produto FOREIGN KEY(ean) REFERENCES produto(ean)
+	CONSTRAINT    pk_d_produto PRIMARY KEY(ean)
 );
 
 CREATE TABLE d_tempo (
