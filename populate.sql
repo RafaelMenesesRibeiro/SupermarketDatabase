@@ -138,6 +138,8 @@ insert into produto values (4378032769996, 'Iogurte Natural', 'Iogurte', 1117163
 insert into produto values (6387159284643, 'Leite Magro Mimosa', 'Leite de Vaca', 111716311,'2017-04-11');
 insert into produto values (6387159284644, 'Leite Meio-Gordo Mimosa', 'Leite de Vaca', 111716311,'2017-04-11;');
 
+
+insert into fornece_sec values (111716311, 6387159284644);
 insert into fornece_sec values (411317713, 3504045126739);
 insert into fornece_sec values (901725618, 3504045126739);
 insert into fornece_sec values (735151289, 3504045126739);
