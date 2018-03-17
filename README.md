@@ -1,4 +1,4 @@
-# Supermarket_db
+# SupermarketDatabaseExample
 ## Databases course project, 3rd delivery
 
 ###### Creating and testing the database:
