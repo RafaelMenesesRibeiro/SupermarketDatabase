@@ -1,5 +1,13 @@
 # SupermarketDatabaseExample
-## Databases course project, 3rd delivery
+
+[University Project]
+
+[3rd Year - 1st Semester]
+
+Objective:
+- Learn how to create a database
+- Learn PHP and mySQL
+- Learn how to use PHP to access and control a database
 
 ###### Creating and testing the database:
 
